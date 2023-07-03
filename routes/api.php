@@ -23,6 +23,11 @@ Route::get("readparkzones/{id}/{cat}", [ParkzoneController::class, "readApiByIdA
 Route::get("readparkzonestariff/{id}/{cat}", [ParkzoneController::class, "readTariffByIdAndCat"]);
 Route::get("searchParkzones/{text?}", [ParkzoneController::class, "searchParkzones"]);
 
+
+
+Route::post('/register', [UserclientController::class, 'register']);
+Route::post('/login', [UserclientController::class, 'login']);
+
 // Route::get('readparkzones', 'ParkzoneController@readApi');
 // Route::get('readparkzones/{id}', 'ParkzoneController@readApiById');
 // Route::get('readparkzones/{id}/{cat}', 'ParkzoneController@readApiByIdAndCat');
