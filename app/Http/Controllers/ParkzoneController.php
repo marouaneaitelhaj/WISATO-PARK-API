@@ -68,6 +68,33 @@ class ParkzoneController extends Controller
         return response()->json($data);
     }
 
+    public function searchParkzones($text = null)
+    {
+        if ($text == null) {
+            $parkzone = Parkzone::take(10)
+                ->with("Quartier")
+                ->with("Quartier.city")
+                ->get();
+        } else {
+            // $parkzone = Parkzone::join("quartiers", 'quartier_id', '=', 'quartiers.id')
+            //     ->where(function ($query) use ($text) {
+            //         $query->where("name", 'like', '%' . $text . '%')
+            //             ->orWhere("quartiers.quartier_name", 'like', '%' . $text . '%');
+            //     })
+            //     ->with("Quartier")
+            //     ->with("Quartier.city")
+            //     ->get();
+            $parkzone = Parkzone::with("Quartier")
+                ->with("Quartier.city")
+                ->where('name', 'like', '%' . $text . '%')
+                ->orWhereHas('Quartier', function ($query) use ($text) {
+                    $query->where('quartier_name', 'like', '%' . $text . '%');
+                })
+                ->get();
+        }
+        return response()->json($parkzone);
+    }
+
     public function readApiById($id)
     {
         $parkzones = Parkzone::find($id);
