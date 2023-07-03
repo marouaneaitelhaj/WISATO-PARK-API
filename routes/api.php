@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ParkzoneController;
+use App\Http\Controllers\UserclientController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -32,3 +33,4 @@ Route::post('/login', [UserclientController::class, 'login']);
 // Route::get('readparkzones/{id}', 'ParkzoneController@readApiById');
 // Route::get('readparkzones/{id}/{cat}', 'ParkzoneController@readApiByIdAndCat');
 // Route::get('readparkzonestariff/{id}/{cat}', 'ParkzoneController@readTariffByIdAndCat');
+

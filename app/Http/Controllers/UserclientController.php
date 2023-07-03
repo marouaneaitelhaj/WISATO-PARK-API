@@ -36,11 +36,13 @@ class UserclientController extends Controller
 
         if (Auth::guard('client')->attempt($credentials)) {
             $user = Auth::guard('client')->user();
-            $token = $user->createToken('userclient-token')->plainTextToken;
-
-            return response()->json(['message' => 'Login successful', 'user' => $user, 'token' => $token], 200);
+            return response()->json(['message' => 'Login successful', 'user' => $user], 200);
         } else {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
+    }
+    public function showRegistrationForm()
+    {
+        return view('register');
     }
 }

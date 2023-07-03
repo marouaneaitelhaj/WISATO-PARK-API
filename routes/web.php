@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserclientController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+
+Route::get('/register', [UserclientController::class, 'showRegistrationForm'])->name('userclient.register.form');
+Route::post('/register', [UserclientController::class, 'register'])->name('userclient.register');
