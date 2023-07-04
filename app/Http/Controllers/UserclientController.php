@@ -26,8 +26,13 @@ class UserclientController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
-
-        return response()->json(['message' => 'Registration successful', 'user' => $user], 201);
+        
+        if($user){
+            return response()->json([
+                'token' => $user->createToken(time())->accessToken,
+            ], 201);
+        }
+        return response()->json(['message' => 'Registration failed'], 400);
     }
 
     public function login(Request $request)
@@ -36,7 +41,11 @@ class UserclientController extends Controller
 
         if (Auth::guard('client')->attempt($credentials)) {
             $user = Auth::guard('client')->user();
-            return response()->json(['message' => 'Login successful', 'user' => $user], 200);
+            return response()->json([
+                'message' => 'Login successful',
+                'user' => $user,
+                // 'token' => $user->createToken(time())->accessToken,
+            ], 200);
         } else {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
