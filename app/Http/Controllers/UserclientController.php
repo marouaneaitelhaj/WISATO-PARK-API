@@ -26,10 +26,10 @@ class UserclientController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
-        
-        if($user){
+
+        if ($user) {
             return response()->json([
-                'token' => $user->createToken(time())->accessToken,
+                'token' => $user->createToken(time())->plainTextToken,
             ], 201);
         }
         return response()->json(['message' => 'Registration failed'], 400);
@@ -50,8 +50,9 @@ class UserclientController extends Controller
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
     }
-    public function showRegistrationForm()
+
+    public function getUser()
     {
-        return view('register');
+        return auth()->user();
     }
 }

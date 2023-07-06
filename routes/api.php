@@ -28,6 +28,7 @@ Route::get("searchParkzones/{text?}", [ParkzoneController::class, "searchParkzon
 
 Route::post('/register', [UserclientController::class, 'register']);
 Route::post('/login', [UserclientController::class, 'login']);
+Route::get('/user', [UserclientController::class, 'getUser'])->middleware('auth:sanctum');
 
 // Route::get('readparkzones', 'ParkzoneController@readApi');
 // Route::get('readparkzones/{id}', 'ParkzoneController@readApiById');
