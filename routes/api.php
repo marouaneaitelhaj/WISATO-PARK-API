@@ -18,6 +18,16 @@ use App\Http\Controllers\UserclientController;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+
+
+
+Route::post('/register', [UserclientController::class, 'register']);
+Route::post('/login', [UserclientController::class, 'login']);
+Route::post('/updateProfile', [UserclientController::class, 'updateProfile']);
+
+
 Route::get("readparkzones", [ParkzoneController::class, "readApi"]);
 Route::get("readparkzones/{id}", [ParkzoneController::class, "readApiById"]);
 Route::get("readparkzones/{id}/{cat}", [ParkzoneController::class, "readApiByIdAndCat"]);
@@ -26,8 +36,6 @@ Route::get("searchParkzones/{text?}", [ParkzoneController::class, "searchParkzon
 
 
 
-Route::post('/register', [UserclientController::class, 'register']);
-Route::post('/login', [UserclientController::class, 'login']);
 
 // Route::get('readparkzones', 'ParkzoneController@readApi');
 // Route::get('readparkzones/{id}', 'ParkzoneController@readApiById');

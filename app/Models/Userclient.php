@@ -14,10 +14,16 @@ class Userclient extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+        protected $fillable = [
+            'name',
+            'email',
+            'password',
+            'username',
+            'gender',
+            'city',
+            'cin',
+            'phone',
+            'image',
+        ];
 
 }
