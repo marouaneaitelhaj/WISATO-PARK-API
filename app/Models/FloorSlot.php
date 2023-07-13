@@ -22,6 +22,7 @@ class FloorSlot extends Model
     }
     public function active_parking()
     {
-        return $this->hasOne('App\Models\Parking', 'slot_id')->where('table_name', 'floor_slots')->whereNull('out_time');
+        $currentTime = now();
+        return $this->hasOne('App\Models\Parking', 'slot_id')->where('table_name', 'floor_slots')->where('done', false)->where('in_time', '<=', $currentTime)->where(function ($query) use ($currentTime) { $query->where('done', false) ->orWhere('out_time', '>=', $currentTime); });
     }
 }

@@ -42,6 +42,7 @@ class Category extends Model
 
     public function active_parking()
     {
-        return $this->hasOneThrough('App\Models\Parking', 'App\Models\CategoryWiseParkzoneSlot', 'category_id', 'slot_id')->whereNull('out_time');
+        $currentTime = now();
+        return $this->hasOneThrough('App\Models\Parking', 'App\Models\CategoryWiseParkzoneSlot', 'category_id', 'slot_id')->where('done', false)->where('in_time', '<=', $currentTime)->where(function ($query) use ($currentTime) { $query->where('done', false) ->orWhere('out_time', '>=', $currentTime); });
     }
 }

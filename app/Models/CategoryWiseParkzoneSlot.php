@@ -48,7 +48,8 @@ class CategoryWiseParkzoneSlot extends Model
 
     public function active_parking()
     {
-        return $this->hasOne('App\Models\Parking', 'slot_id')->where('table_name', 'category_wise_parkzone_slots')->whereNull('out_time');
+        $currentTime = now();
+        return $this->hasOne('App\Models\Parking', 'slot_id')->where('table_name', 'category_wise_parkzone_slots')->where('done', false)->where('in_time', '<=', $currentTime)->where(function ($query) use ($currentTime) { $query->where('done', false) ->orWhere('out_time', '>=', $currentTime); });
     }
 
     public function getDataForDataTable($limit = 20, $offset = 0, $search = [], $where = [], $with = [], $join = [], $order_by = [], $table_col_name = '', $select = null)
