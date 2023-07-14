@@ -71,11 +71,8 @@ class Parkzone extends Model
 
     public function active_parking()
     {
-        // give var of time now
         $currentTime = now();
-        // check if $now is between in_time and out_time
-        return $this->hasOneThrough('App\Models\Parking', 'App\Models\CategoryWiseParkzoneSlot', 'parkzone_id', 'slot_id')->where('done', false)->where('in_time', '<=', $currentTime)->where(function ($query) use ($currentTime) { $query->where('done', false) ->orWhere('out_time', '>=', $currentTime); });
-        // return $this->hasOneThrough('App\Models\Parking', 'App\Models\CategoryWiseParkzoneSlot', 'parkzone_id', 'slot_id')->
+        return $this->hasOneThrough('App\Models\Parking', 'App\Models\CategoryWiseParkzoneSlot', 'parkzone_id', 'slot_id')->where('in_time', '<=', $currentTime)->where('out_time', '>=', $currentTime);
     }
     public function agents()
     {

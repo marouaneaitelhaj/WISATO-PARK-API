@@ -24,6 +24,6 @@ class Side_slot extends Model
     public function active_parking()
     {
         $currentTime = now();
-        return $this->hasOne('App\Models\Parking', 'slot_id')->where('table_name', 'side_slots')->where('done', false)->where('in_time', '<=', $currentTime)->where(function ($query) use ($currentTime) { $query->where('done', false) ->orWhere('out_time', '>=', $currentTime); });
+        return $this->hasOne('App\Models\Parking', 'slot_id')->where('table_name', 'side_slots')->where('in_time', '<=', $currentTime)->where('out_time', '>=', $currentTime);
     }
 }

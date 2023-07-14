@@ -16,6 +16,7 @@ use App\Models\Gallery;
 
 use App\Models\cities;
 use App\Models\FloorSlot;
+use App\Models\Parking;
 use App\Models\Side_slot;
 use App\Models\Sides;
 use Exception;
@@ -25,6 +26,33 @@ use Illuminate\Support\Facades\App;
 
 class ParkzoneController extends Controller
 {
+    public function slotbytypeandid($type, $id)
+    {
+        if ($type == 'standard') {
+            $table = "category_wise_parkzone_slots";
+            $data = Parking::where('slot_id', $id)->where("table_name", $table)->get();
+            return response()->json([
+                "data" => $data,
+                "type" => "standard"
+            ]);
+        } elseif ($type == 'floor') {
+            $table = "floor_slots";
+            $data = Parking::where('slot_id', $id)->where("table_name", $table)->get();
+            return response()->json([
+                "data" => $data,
+                "type" => "floor"
+            ]);
+        } elseif ($type == 'side') {
+            $table = "side_slots";
+            $data = Parking::where('slot_id', $id)->where("table_name", $table)->get();
+            return response()->json([
+                "data" => $data,
+                "type" => "side"
+            ]);
+        }
+    }
+
+
     public function readApi()
     {
         $data = [];

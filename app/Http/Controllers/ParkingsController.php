@@ -13,7 +13,7 @@ class ParkingsController extends Controller
 {
     public function store(Request $request)
     {
-        
+
         $name = Userclient::find($request->user_id)->name;
         $table_name = '';
         $user = User::find($request->user_id);
@@ -29,22 +29,20 @@ class ParkingsController extends Controller
                 break;
         }
         $Parkings = Parking::where('slot_id', $request->slot_id)->where('table_name', $table_name)->where('category_id', $request->category_id)->get();
+        foreach ($Parkings as $Parking) {
+            $check = $this->checkDate(date('Y-m-d H:i:s', strtotime($Parking->in_time)), date('Y-m-d H:i:s', strtotime($Parking->out_time)), date('Y-m-d H:i:s', strtotime($request->in_time)));
 
-        foreach($Parkings as $Parking){
-            $check = $this->checkDate($Parking->out_time, $Parking->in_time, $request->in_time);
-            if($check == "Between"){
+            if ($check == "Between") {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Parking already exists',
-                    'data' => $Parking,
                 ], 200);
-            }else{
-                $check = $this->checkDate($Parking->out_time, $Parking->in_time, $request->out_time);
-                if($check == "Between"){
+            } else {
+                $check = $this->checkDate(date('Y-m-d H:i:s', strtotime($Parking->in_time)), date('Y-m-d H:i:s', strtotime($Parking->out_time)), date('Y-m-d H:i:s', strtotime($request->out_time)));
+                if ($check == "Between") {
                     return response()->json([
                         'status' => 'error',
                         'message' => 'Parking already exists',
-                        'data' => $Parking
                     ], 200);
                 }
             }
@@ -78,14 +76,19 @@ class ParkingsController extends Controller
 
     public function checkDate($start, $end, $given)
     {
-        $startDate = strtotime($start);
+        // dd("start" . $start, "end" . $end,"give" . $given);
+        $startDate = date('Y-m-d H:i:s', strtotime($start));
+        $startDate = strtotime($startDate);
+        $endDate = date('Y-m-d H:i:s', strtotime($end));
         $endDate = strtotime($end);
+        $givenDate = date('Y-m-d H:i:s', strtotime($given));
         $givenDate = strtotime($given);
-
         if ($startDate <= $givenDate && $givenDate <= $endDate) {
             return "Between";
+            // dd("start" . $start, "end" . $end,"give" . $given, "Between");
         } else {
-            return "Not between";
+            return "Not Between";
+            // dd("start" . $start, "end" . $end,"give" . $given, "Not Between");
         }
     }
     // public fun

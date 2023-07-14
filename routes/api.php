@@ -24,6 +24,8 @@ Route::get("readparkzones/{id}", [ParkzoneController::class, "readApiById"]);
 Route::get("readparkzones/{id}/{cat}", [ParkzoneController::class, "readApiByIdAndCat"]);
 Route::get("readparkzonestariff/{id}/{cat}", [ParkzoneController::class, "readTariffByIdAndCat"]);
 Route::get("searchParkzones/{text?}", [ParkzoneController::class, "searchParkzones"]);
+Route::get("slotbytypeandid/{type}/{id}", [ParkzoneController::class, "slotbytypeandid"]);
+
 
 
 
