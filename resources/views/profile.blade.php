@@ -30,5 +30,8 @@
         
         <button type="submit">Update</button>
     </form>
+    <img src="{{ Storage::url($user->image) }}" alt="Profile Image">
+
+
 </body>
 </html>

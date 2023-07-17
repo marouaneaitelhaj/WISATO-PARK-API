@@ -34,8 +34,11 @@ Route::get("readparkzones/{id}/{cat}", [ParkzoneController::class, "readApiByIdA
 Route::get("readparkzonestariff/{id}/{cat}", [ParkzoneController::class, "readTariffByIdAndCat"]);
 Route::get("searchParkzones/{text?}", [ParkzoneController::class, "searchParkzones"]);
 
+Route::get('/profileImage', [UserclientController::class, 'getProfileImage']);
 
 
+
+Route::get('/user', [UserclientController::class, 'getUser'])->middleware('auth:sanctum');
 
 // Route::get('readparkzones', 'ParkzoneController@readApi');
 // Route::get('readparkzones/{id}', 'ParkzoneController@readApiById');
