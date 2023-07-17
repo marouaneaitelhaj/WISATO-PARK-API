@@ -23,6 +23,7 @@ class Side_slot extends Model
     }
     public function active_parking()
     {
-        return $this->hasOne('App\Models\Parking', 'slot_id')->where('table_name', 'side_slots')->whereNull('out_time');
+        $currentTime = now();
+        return $this->hasOne('App\Models\Parking', 'slot_id')->where('table_name', 'side_slots')->where('in_time', '<=', $currentTime)->where('out_time', '>=', $currentTime);
     }
 }

@@ -7,6 +7,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Userclient;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -47,9 +48,9 @@ class UserclientController extends Controller
         if (Auth::guard('client')->attempt($credentials)) {
             $user = Auth::guard('client')->user();
             return response()->json([
-                'message' => 'Login successful',
+                'message' => 'marwane',
                 'user' => $user,
-                // 'token' => $user->createToken(time())->accessToken,
+                'token' => Userclient::find($user->id)->createToken(time())->plainTextToken,
             ], 200);
         } else {
             return response()->json(['message' => 'Invalid credentials'], 401);

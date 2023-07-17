@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ParkingsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ParkzoneController;
@@ -28,17 +29,23 @@ Route::post('/login', [UserclientController::class, 'login']);
 Route::post('/updateProfile', [UserclientController::class, 'updateProfile']);
 
 
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// })
 Route::get("readparkzones", [ParkzoneController::class, "readApi"]);
 Route::get("readparkzones/{id}", [ParkzoneController::class, "readApiById"]);
 Route::get("readparkzones/{id}/{cat}", [ParkzoneController::class, "readApiByIdAndCat"]);
 Route::get("readparkzonestariff/{id}/{cat}", [ParkzoneController::class, "readTariffByIdAndCat"]);
 Route::get("searchParkzones/{text?}", [ParkzoneController::class, "searchParkzones"]);
+Route::get("slotbytypeandid/{type}/{id}", [ParkzoneController::class, "slotbytypeandid"]);
+
 
 Route::get('/profileImage', [UserclientController::class, 'getProfileImage']);
 
 
 
 Route::get('/user', [UserclientController::class, 'getUser'])->middleware('auth:sanctum');
+Route::post('/parking', [ParkingsController::class, 'store']);
 
 // Route::get('readparkzones', 'ParkzoneController@readApi');
 // Route::get('readparkzones/{id}', 'ParkzoneController@readApiById');

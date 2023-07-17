@@ -16,15 +16,76 @@ use App\Models\Gallery;
 
 use App\Models\cities;
 use App\Models\FloorSlot;
+use App\Models\Parking;
 use App\Models\Side_slot;
 use App\Models\Sides;
 use Exception;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\App;
+use Mockery\Undefined;
 
 class ParkzoneController extends Controller
 {
+    public function slotbytypeandid($type, $id)
+    {
+        $data = [];
+        $now = date('Y-m-d H:i:s');
+        $after24 = date('Y-m-d H:i:s', strtotime('+24 hours'));
+        $availableTime = [];
+        $all = [];
+        if ($type == 'standard') {
+            $table = "category_wise_parkzone_slots";
+            $data = Parking::where('slot_id', $id)->where("table_name", $table)->get();
+        } elseif ($type == 'floor') {
+            $table = "floor_slots";
+            $data = Parking::where('slot_id', $id)->where("table_name", $table)->get();
+        } elseif ($type == 'side') {
+            $table = "side_slots";
+            $data = Parking::where('slot_id', $id)->where("table_name", $table)->get();
+        }
+        $newnow = strtotime($now);
+        $newafter24 = strtotime($after24);
+        array_push($all, $newnow, $newafter24);
+        foreach ($data as $index => $da) {
+            $newintime = strtotime(date('Y-m-d H:i:s', strtotime($da->in_time)));
+            $newouttime = strtotime(date('Y-m-d H:i:s', strtotime($da->out_time)));
+            array_push($all, $newintime, $newouttime);
+        }
+
+        $num = 0;
+        for ($i = $newnow; $i <= $newafter24; $i++) {
+            foreach ($all as $index => $al) {
+                if ($i == $al) {
+                    $availableTime[$num] = date('Y-m-d H:i:s', $i);
+                    $num++;
+                }
+            }
+        }
+
+        $temp = [];
+        $temp = $availableTime;
+        if (count($availableTime) % 2 != 0) {
+            array_shift($temp);
+        }
+        $availableTime = [];
+        $rnd = 0;
+        $num = 0;
+        foreach ($temp as $tmp) {
+            if ($rnd == 0) {
+                $availableTime[$num]["from"] = $tmp;
+                $rnd = 1;
+            }else{
+                $availableTime[$num]["to"] = $tmp;
+                $rnd = 0;
+                $num++;
+            }
+        }
+
+        return response()->json($availableTime);
+    }
+
+
     public function readApi()
     {
         $data = [];
