@@ -57,7 +57,7 @@ class ParkzoneController extends Controller
         for ($i = $newnow; $i <= $newafter24; $i++) {
             foreach ($all as $index => $al) {
                 if ($i == $al) {
-                    $availableTime[$num] = date('Y-m-d H:i:s', $i);
+                    $availableTime[$num] = date('H:i', $i);
                     $num++;
                 }
             }
