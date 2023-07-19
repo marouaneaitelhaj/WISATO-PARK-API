@@ -137,4 +137,8 @@ class UserclientController extends Controller
 
         return response()->json(['image' => $imagePath], 200);
     }
+    public function getUser()
+    {
+        return Auth::guard('client')->user();
+    }
 }

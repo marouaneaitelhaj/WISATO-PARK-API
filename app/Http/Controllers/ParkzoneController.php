@@ -205,7 +205,7 @@ class ParkzoneController extends Controller
     }
     public function readTariffByIdAndCat($id, $cat)
     {
-        $parkzone = Parkzone::find($id)->with("Quartier", "Quartier.city")->first();
+        $parkzone = Parkzone::where("id", $id)->with("Quartier", "Quartier.city")->first();
         $categorie = Category::where('type', $cat)->first();
         return response()->json([
             "parkzone" => $parkzone,
