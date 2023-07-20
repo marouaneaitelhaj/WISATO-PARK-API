@@ -32,6 +32,7 @@ class ParkingsController extends Controller
                 $quartier = Quartier::where('id', $parkzone->quartier_id)->first();
                 $City = cities::where('id', $quartier->city_id)->first();
                 $parkings[$index]["Address"] = $City->CITY . ", " . $quartier->quartier_name . ", " . $parkzone->name;
+                $parkings[$index]["City"] = $City->CITY;
             } else if ($parking->table_name == 'side_slots') {
                 $Side_slot =  Side_slot::where('id', $parking->slot_id)->first();
                 $side = Sides::where('id', $Side_slot->side_id)->first();
@@ -39,13 +40,23 @@ class ParkingsController extends Controller
                 $quartier = Quartier::where('id', $parkzone->quartier_id)->first();
                 $City = cities::where('id', $quartier->city_id)->first();
                 $parkings[$index]["Address"] = $City->CITY . ", " . $quartier->quartier_name . ", " . $parkzone->name;
+                $parkings[$index]["City"] = $City->CITY;
+
             } else if ($parking->table_name == 'category_wise_parkzone_slots') {
                 $category_wise_parkzone_slots =  CategoryWiseParkzoneSlot::where('id', $parking->slot_id)->first();
                 $parkzone = Parkzone::where('id', $category_wise_parkzone_slots->parkzone_id)->first();
                 $quartier = Quartier::where('id', $parkzone->quartier_id)->first();
                 $City = cities::where('id', $quartier->city_id)->first();
                 $parkings[$index]["Address"] = $City->CITY . ", " . $quartier->quartier_name . ", " . $parkzone->name;
+                $parkings[$index]["City"] = $City->CITY;
 
+
+            }
+            // check if parking.out_time is greater than current time
+            if (strtotime($parking->out_time) > strtotime(date('Y-m-d H:i:s'))) {
+                $parkings[$index]["status"] = "Active";
+            } else {
+                $parkings[$index]["status"] = "Expired";
             }
         }
         return response()->json([
